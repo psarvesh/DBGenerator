@@ -1,6 +1,14 @@
 package storage;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 import com.sleepycat.je.*;
 import com.sleepycat.persist.*;
@@ -105,6 +113,47 @@ public class OutputDBWrapper {
 	
 	public boolean deleteIDF(String word){
 		return idfDB.delete(word);
+	}
+	
+	/**
+	 * Sorted list return
+	 */
+	
+	public List<PRObject> getSortedPR(ArrayList<String> list){
+		List<PRObject> prList = new LinkedList<PRObject>();
+		HashMap<PRObject, Double> mapPR = new HashMap<PRObject, Double>();
+		for(String url: list){
+			PRObject pro = this.peekPR(url);
+			if(pro != null){
+				mapPR.put(pro, pro.getPageRank());
+			}
+		}
+		
+		List<PRObject> mapKeys = new ArrayList<PRObject>(mapPR.keySet());
+	    List<Double> mapValues = new ArrayList<Double>(mapPR.values());
+	    Collections.sort(mapValues);
+
+	    LinkedHashMap<PRObject, Double> sortedMap = new LinkedHashMap<PRObject, Double>();
+
+	    Iterator<Double> valueIt = mapValues.iterator();
+	    while (valueIt.hasNext()) {
+	        Double val = valueIt.next();
+	        Iterator<PRObject> keyIt = mapKeys.iterator();
+	        while (keyIt.hasNext()) {
+	            PRObject key = keyIt.next();
+	            Double comp1 = mapPR.get(key);
+	            Double comp2 = val;
+	            if (comp1.equals(comp2)) {
+	                keyIt.remove();
+	                sortedMap.put(key, val);
+	                break;
+	            }
+	        }
+	    }
+	    for(Map.Entry<PRObject, Double> entry : sortedMap.entrySet()){
+	    	prList.add(entry.getKey());
+	    }
+		return prList;
 	}
 	
 	public void close(){

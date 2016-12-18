@@ -24,6 +24,10 @@ public class PRObject{
 		this.pageRank = pr;
 	}
 
+	public String getURL(){
+		return this.url;
+	}
+	
 	public String getTitle(){
 		return this.title;	
 	}
@@ -43,4 +47,5 @@ public class PRObject{
 	public String getCountry(){
 		return this.country;
 	}
+
 }
