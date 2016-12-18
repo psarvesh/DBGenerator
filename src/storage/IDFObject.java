@@ -1,19 +1,21 @@
 package storage;
 
+import com.sleepycat.persist.model.Entity;
 import com.sleepycat.persist.model.PrimaryKey;
 
+@Entity
 public class IDFObject {
 	@PrimaryKey
 	String word;
 	
-	int idf;
+	double idf;
 	
-	public IDFObject(String word, int idf){
+	public IDFObject(String word, double idf2){
 		this.word = word;
-		this.idf = idf;
+		this.idf = idf2;
 	}
 	
-	public int getIDF(){
+	public double getIDF(){
 		return this.idf;
 	}
 	
