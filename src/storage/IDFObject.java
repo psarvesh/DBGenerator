@@ -15,6 +15,10 @@ public class IDFObject {
 		this.idf = idf2;
 	}
 	
+	public String getWord(){
+		return this.word;
+	}
+	
 	public double getIDF(){
 		return this.idf;
 	}

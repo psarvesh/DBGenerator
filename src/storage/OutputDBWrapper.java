@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -119,8 +118,7 @@ public class OutputDBWrapper {
 	 * Sorted list return
 	 */
 	
-	public List<PRObject> getSortedPR(ArrayList<String> list){
-		List<PRObject> prList = new LinkedList<PRObject>();
+	public HashMap<String, PRObject> getSortedPR(ArrayList<String> list){
 		HashMap<PRObject, Double> mapPR = new HashMap<PRObject, Double>();
 		for(String url: list){
 			PRObject pro = this.peekPR(url);
@@ -150,10 +148,11 @@ public class OutputDBWrapper {
 	            }
 	        }
 	    }
+	    LinkedHashMap<String, PRObject> sortedReturn = new LinkedHashMap<String, PRObject>();
 	    for(Map.Entry<PRObject, Double> entry : sortedMap.entrySet()){
-	    	prList.add(entry.getKey());
+	    	sortedReturn.put(entry.getKey().getURL(), entry.getKey());
 	    }
-		return prList;
+		return sortedReturn;
 	}
 	
 	public void close(){
